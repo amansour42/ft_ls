@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:09:47 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 15:21:24 by amansour         ###   ########.fr       */
+/*   Updated: 2017/12/06 17:19:00 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,25 @@ void	reverse_list(t_path **list)
 {
 	t_path *res;
 	t_path *ptmp;
+	t_path *tmp;
 
 	res = NULL;
 	while (*list)
 	{
+		tmp = *list;
 		ptmp = (*list)->next;
 		while (ptmp && ptmp->next)
+		{
+			tmp = ptmp;
 			ptmp = ptmp->next;
+		}
 		(ptmp) ? add_list(&res, ptmp->path) : add_list(&res, (*list)->path);
 		(ptmp) ? free(ptmp->path) : free((*list)->path);
 		if (ptmp)
+		{
 			free(ptmp);
+			tmp->next = NULL;
+		}
 		else
 		{
 			free(*list);

@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 15:31:48 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 17:08:21 by amansour         ###   ########.fr       */
+/*   Updated: 2017/12/06 17:23:51 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		size(t_path *l)
 	int		j;
 	t_path	*tmp;
 
-	tmp = l->next;
+	tmp = l;
 	i = ft_strlen(l->path);
 	while(tmp)
 	{
@@ -46,7 +46,7 @@ int		size(t_path *l)
 		if (j > i)
 			i = j;
 	}
-	return (j);
+	return (i);
 }
 
 void		print_without_blocs(int flag, char *str)
