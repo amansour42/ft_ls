@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:00:16 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 16:21:02 by amansour         ###   ########.fr       */
+/*   Updated: 2017/12/07 10:49:38 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define T			0x10
 # define LIST		e->list
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <dirent.h>
 # include <time.h>
 # include <stdio.h>
@@ -33,6 +34,16 @@
 typedef struct		s_path
 {
 	char			*path;
+	char			*type;
+	long			inoeud;
+	long			links;
+	unsigned long	mode;
+	char			*owner;
+	char			*group;
+	long			blocs;
+	long			size;
+	char			*last_acsess;
+	char			*last_mod;
 	char			*time;
 	struct s_path	*next;
 }					t_path;

@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:21:19 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 16:56:33 by amansour         ###   ########.fr       */
+/*   Updated: 2017/12/07 10:14:59 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void			sort(t_path **list)
 	while (!empty_list(l))
 	{
 		tmp = l;
-		while (tmp && !ft_strcmp(tmp->path, ""))
+		while (tmp && tmp->path[0] == '\0')
 			tmp = tmp->next;
 		str = tmp->path;
 		tmp = tmp->next;
 		while (tmp)
 		{
-			if (ft_strcmp(tmp->path, str) < 0)
+			if (tmp->path[0] != '\0'  && ft_strcmp(tmp->path, str) < 0)
 				str = tmp->path;
 			tmp = tmp->next;
 		}

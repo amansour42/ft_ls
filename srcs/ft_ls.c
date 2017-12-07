@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:53:36 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 17:15:22 by amansour         ###   ########.fr       */
+/*   Updated: 2017/12/07 10:11:42 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ft_ls(int flag, char *str)
 	else if (flag & R)
 		print_recursive(flag, str);
 	else*/
-		print_without_blocs(flag, str);
+	print_without_blocs(flag, str);
 }
