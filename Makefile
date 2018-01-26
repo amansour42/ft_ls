@@ -6,7 +6,7 @@
 #    By: amansour <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/30 10:19:33 by amansour          #+#    #+#              #
-#    Updated: 2017/12/06 16:49:44 by amansour         ###   ########.fr        #
+#    Updated: 2018/01/26 15:51:38 by amansour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ INCLUD  = ./include
 LIB = libft/libft.a
 LIBPRINTF = libprint/libp.a
 
-SRC = ft_ls.c ft_simple_print.c list.c main.c treatement_flag.c sorting.c\
+SRC = ft_ls.c ft_simple_print.c list.c main.c treatement_flag.c sorting.c attribut.c info.c\
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRC:.c=.o))
 

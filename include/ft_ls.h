@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:00:16 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/07 10:49:38 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/26 16:48:24 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@
 
 typedef struct		s_path
 {
-	char			*path;
-	char			*type;
-	long			inoeud;
-	long			links;
+	char			    *path;
+	char			    *type;
+	long			    inoeud;
+	long			    links;
 	unsigned long	mode;
-	char			*owner;
-	char			*group;
-	long			blocs;
-	long			size;
-	char			*last_acsess;
-	char			*last_mod;
-	char			*time;
+	char			    *owner;
+	char			    *group;
+	long long	    blocs;
+	long long		  size;
+	time_t  		  last_access;
+	time_t  			last_mod;
+  time_t        time;
 	struct s_path	*next;
-}					t_path;
+}					      t_path;
 
 typedef struct		s_env
 {
-	int				flag;
-	t_path			*list;
-}					t_env;
+	int				      flag;
+	t_path			    *list;
+}					        t_env;
 
 int					main(int ac, char **av);
 
@@ -89,16 +89,10 @@ void				delete_link(t_path **path, t_path *to_delete);
 */
 
 void				sort(t_path **list);
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+** attributs
+**
+*/
+void        type(struct stat sb, char **str);
+void        all_attribut(t_path **p);
 #endif

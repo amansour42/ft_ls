@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:09:47 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/06 17:19:00 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/26 17:04:33 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,24 @@ static int	month(char *str)
 		return (11);
 	return (12);
 }
-
+/*
+static int  day(char *str)
+{
+  if (!ft_strcmp(str, "Mon"))
+    return (1);
+  if (!ft_strcmp(str, "Tue"))
+    return (2);
+  if (!ft_strcmp(str, "Wen"))
+    return (3);
+  if (!ft_strcmp(str, "Thu"))
+    return (4);
+  if (!ft_strcmp(str, "Fri"))
+    return (5);
+  if (!ft_strcmp(str, "Sat"))
+    return (6);
+  return (7);
+}
+*/
 static int	compare_hour(char *s1, char *s2)
 {
 	char	**str1;
@@ -105,9 +122,12 @@ static int	compare_time(char *s1, char *s2)
 	char	**str1;
 	char	**str2;
 	int		res;
+  struct stat sb;
 
-	str1 = ft_strsplit(s1, ' ');
-	str2 = ft_strsplit(s2, ' ');
+  stat(s1, &sb);
+  str1 = ft_strsplit(ctime(&sb.st_ctime), ' ');
+  stat(s2, &sb);
+	str2 = ft_strsplit(ctime(&sb.st_ctime), ' ');
 	if (!(res = ft_atoi(str1[4]) - ft_atoi(str2[4])))
 		if (!(res = month(str1[1]) - month(str2[1])))
 			if (!(res = ft_atoi(str1[2]) - ft_atoi(str2[2])))
@@ -130,10 +150,11 @@ void	time_listing(t_path **list)
 		tmp = (*list)->next;
 		while (tmp)
 		{
-			if (compare_time(tmp->time, ptmp->time) < 0)
+			if (compare_time(tmp->path, ptmp->path) > 0)
 				ptmp = tmp;
 			tmp = tmp->next;
 		}
+    printf("REsult %s\n", ptmp->path);
 		copy_data(&res, ptmp);
 		delete_link(list, ptmp);
 	}

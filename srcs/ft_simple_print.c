@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 15:31:48 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/07 10:16:59 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/26 16:04:21 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_path		*files(char *str)
 
 int		size(t_path *l)
 {
-	int		i;
-	int		j;
+	int		  i;
+	int		  j;
 	t_path	*tmp;
 
 	tmp = l;
@@ -51,17 +51,21 @@ int		size(t_path *l)
 
 void		print_without_blocs(int flag, char *str)
 {
-	t_path	*path;
-	int		length;
-	t_path	*l;
-	int		i;
+	t_path	  *path;
+	int		    length;
+	t_path	  *l;
+	int		    i;
 
 	if (!(path = files(str)))
 		return ;
-	if (flag & R)
+  all_attribut(&path);
+  if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
+  {
+    printf("YES\n");
 		time_listing(&path);
+  }
 	length = size(path);
 	l = path;
 	while (l && l->next)
