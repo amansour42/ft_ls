@@ -33,20 +33,20 @@
 
 typedef struct		s_path
 {
-	char			    *path;
-	char			    *type;
-	long			    inoeud;
-	long			    links;
+	char			*path;
+	char			*type;
+	long			inoeud;
+	long			links;
 	unsigned long	mode;
-	char			    *owner;
-	char			    *group;
+	char			*owner;
+	char			*group;
 	long long	    blocs;
-	long long		  size;
-	time_t  		  last_access;
-	time_t  			last_mod;
-  time_t        time;
+	long long		size;
+	time_t  		last_access;
+	time_t  		last_mod;
+  	time_t       	time;
 	struct s_path	*next;
-}					      t_path;
+}					t_path;
 
 typedef struct		s_env
 {

@@ -6,18 +6,56 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:53:36 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/07 10:11:42 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/29 13:54:13 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+static t_path  *files(char *str)
+{
+  DIR           *dir;
+  struct dirent *flow;
+  t_path        *files;
+  char          *s;
+
+  files = NULL;
+  s = ft_strjoin(str, "/");
+  printf("%s\n", s);
+  if ((dir = opendir(str)))
+    while ((flow = readdir(dir)))
+    {
+      if (ft_strcmp(flow->d_name, ".") && ft_strcmp(flow->d_name, ".."))
+          add_list(&files, ft_strjoin(s, flow->d_name));
+      else 
+          add_list(&files, flow->d_name);
+    }
+  sort(&files);
+  return (files);
+}
+
 void	ft_ls(int flag, char *str)
 {
-	/*if (flag & L)
-		print_with_blocs(flag, str);
-	else if (flag & R)
-		print_recursive(flag, str);
-	else*/
+  t_path  *path;
+  t_path  *tmp;
+
 	print_without_blocs(flag, str);
+  if (flag & BIGR)
+  {
+    path = files(str);
+    if (!path)
+      return ;
+    tmp = path;
+    while (tmp)
+    {
+      while (tmp && (!opendir(tmp->path) || !ft_strcmp(tmp->path, "..") || !ft_strcmp(tmp->path, ".")))
+        tmp = tmp->next;
+      if (tmp)
+      {
+        ft_ls(flag, tmp->path);
+        tmp = tmp->next;
+      }
+    }
+    return ;
+  }
 }

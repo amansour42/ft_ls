@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:46:10 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/26 16:22:13 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/29 10:42:04 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ void		delete_link(t_path **path, t_path *d)
   {
     *path = (*path)->next;
     free(p->path);
-    free(p->type);
     free(p);
     return ;
   }
   tmp->next = p->next;
   free(p->path);
-  free(p->type);
   free(p);
 }

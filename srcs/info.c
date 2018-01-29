@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 10:31:51 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/07 11:16:48 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/29 10:41:08 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 void	type(struct stat sb, char **str)
 {
 	if (sb.st_mode == S_IFBLK)
-		*str = ft_strdup("BLOC");
+		*str = "BLOC";
 	else if (sb.st_mode == S_IFCHR)
-		*str = ft_strdup("CHARACTER");
+		*str = "CHARACTER";
 	else if (sb.st_mode == S_IFDIR)
-		*str = ft_strdup("DIRECTORY");
+		*str = "DIRECTORY";
 	else if (sb.st_mode == S_IFIFO)
-		*str = ft_strdup("FIFO");
+		*str = "FIFO";
 	else if (sb.st_mode == S_IFLNK)
-		*str = ft_strdup("LINK");
+		*str = "LINK";
 	else if (sb.st_mode == S_IFREG)
-		*str = ft_strdup("REGULAR");
+		*str = "REGULAR";
 	else if (sb.st_mode == S_IFSOCK)
-		*str = ft_strdup("SOKET");
+		*str = "SOKET";
 	else
-		*str = ft_strdup("UNKNOWN");
+		*str = "UNKNOWN";
 }

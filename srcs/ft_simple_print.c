@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 15:31:48 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/26 16:04:21 by amansour         ###   ########.fr       */
+/*   Updated: 2018/01/29 11:27:17 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_path		*files(char *str)
 {
-	DIR				*dir;
+	DIR				    *dir;
 	struct dirent	*flow;
-	t_path			*files;
+	t_path			  *files;
 
 	files = NULL;
 	if ((dir = opendir(str)))
@@ -58,14 +58,11 @@ void		print_without_blocs(int flag, char *str)
 
 	if (!(path = files(str)))
 		return ;
-  all_attribut(&path);
+  //all_attribut(&path);
   if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
-  {
-    printf("YES\n");
 		time_listing(&path);
-  }
 	length = size(path);
 	l = path;
 	while (l && l->next)
