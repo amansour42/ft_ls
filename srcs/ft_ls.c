@@ -21,7 +21,6 @@ static t_path  *files(char *str)
 
   files = NULL;
   s = ft_strjoin(str, "/");
-  printf("%s\n", s);
   if ((dir = opendir(str)))
     while ((flow = readdir(dir)))
     {
@@ -52,10 +51,10 @@ void	ft_ls(int flag, char *str)
         tmp = tmp->next;
       if (tmp)
       {
+        ft_printf("%s:\n", tmp->path);
         ft_ls(flag, tmp->path);
         tmp = tmp->next;
       }
     }
-    return ;
   }
 }

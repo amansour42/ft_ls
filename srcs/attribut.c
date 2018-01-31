@@ -21,7 +21,7 @@ static void  attribut(t_path *path)
     perror("stat");
     exit(EXIT_SUCCESS);
   }
-  type(sb, &(path->type));  
+  type(sb, &(path->type)); 
   path->inoeud = (long)sb.st_ino;
   path->mode = (unsigned long)sb.st_mode;
   path->links = sb.st_nlink;
@@ -32,7 +32,6 @@ static void  attribut(t_path *path)
   path->last_access = sb.st_mtime;
   path->last_mod = sb.st_ctime;
   path->time = sb.st_ctime;
- // ft_printf("%s => %s\n", path->path, path->time);
 }
 
 void        all_attribut(t_path **p)
@@ -46,4 +45,3 @@ void        all_attribut(t_path **p)
     tmp = tmp->next;
   }
 }
-

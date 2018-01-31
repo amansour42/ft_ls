@@ -12,7 +12,7 @@
 
 #ifndef FT_LS_H
 # define FT_LS_H
-# define FLAG		"lRraT"
+# define FLAG		"lRrat"
 # define L			0x01
 # define A			0x02
 # define R			0x04
@@ -40,19 +40,19 @@ typedef struct		s_path
 	unsigned long	mode;
 	char			*owner;
 	char			*group;
-	long long	    blocs;
+	long long		blocs;
 	long long		size;
-	time_t  		last_access;
-	time_t  		last_mod;
-  	time_t       	time;
+	time_t			last_access;
+	time_t			last_mod;
+	time_t			time;
 	struct s_path	*next;
 }					t_path;
 
 typedef struct		s_env
 {
-	int				      flag;
-	t_path			    *list;
-}					        t_env;
+	int				flag;
+	t_path			*list;
+}					t_env;
 
 int					main(int ac, char **av);
 
@@ -75,7 +75,6 @@ void				print_with_blocs(int flag, char *str);
 void				print_recursive(int flag, char *str);
 void				print_without_blocs(int flag, char *str);
 
-
 /*
 ** treatement
 */
@@ -91,8 +90,7 @@ void				delete_link(t_path **path, t_path *to_delete);
 void				sort(t_path **list);
 /*
 ** attributs
-**
 */
-void        type(struct stat sb, char **str);
-void        all_attribut(t_path **p);
+void				type(struct stat sb, char **str);
+void				all_attribut(t_path **p);
 #endif
