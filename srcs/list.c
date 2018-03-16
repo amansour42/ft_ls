@@ -35,6 +35,21 @@ void		add_list(t_path **path, char *str)
 	return ;
 }
 
+int		length_list(t_path *path)
+{
+	t_path	*tmp;
+	int		len;
+
+	len = 0;
+	tmp = path;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		++len;
+	}
+	return (len);
+}
+
 void		delete_list(t_path **path)
 {
 	t_path *p;

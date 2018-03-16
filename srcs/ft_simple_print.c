@@ -31,53 +31,50 @@ t_path		*files(char *str)
 	return (files);
 }
 
-int		size(t_path *l)
+static void		list_to_print(t_path **l)
 {
-	int		  i;
-	int		  j;
-	t_path	*tmp;
+	t_path *tmp;
+	t_path *new;
 
-	tmp = l;
-	i = ft_strlen(l->path);
-	while(tmp)
+	tmp = *l;
+	new = NULL;
+	while (tmp)
 	{
-		j = ft_strlen(tmp->path);
+		if (tmp->path[0] != '.')
+			add_list(&new, tmp->path);
 		tmp = tmp->next;
-		if (j > i)
-			i = j;
 	}
-	return (i);
+	delete_list(l);
+	*l = new;
 }
 
 void		print_without_blocs(int flag, char *str)
 {
-	t_path	  *path;
-	int		    length;
-	t_path	  *l;
-	int		    i;
+	t_path	  		*path;
+	t_path			*tmp;
+	struct winsize 	w;
 
 	if (!(path = files(str)))
 		return ;
-  //all_attribut(&path);
-  if (flag & R)
+  	if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
 		time_listing(&path);
-	length = size(path);
-	l = path;
-	while (l && l->next)
+	if ((flag & R) == 0)
+		list_to_print(&path);
+	if (isatty(STDOUT_FILENO))
 	{
-		if (l->path[0] == '.')
-		{
-			l = l->next;
-			continue ;
-		}
-		ft_printf("%s ", l->path);
-		i = ft_strlen(l->path) - 1;
-		while (++i < length)
-			ft_printf(" ");
-		l = l->next;
+		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+		column_display(path, w, length_list(path));
 	}
-	(l->path[0] != '.') ? ft_printf("%s\n", l->path) : ft_printf("\n");
-	delete_list(&path);
+	else
+    {
+		tmp = path;
+        while (tmp->next!=NULL)
+        {
+            ft_printf("%s\n", tmp->path);
+            tmp = tmp->next;
+        }
+        ft_printf("%s\n", tmp->path);
+    }
 }

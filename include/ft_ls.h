@@ -26,6 +26,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <signal.h>
 # include <grp.h>
 # include <pwd.h>
 # include "../libft/libft.h"
@@ -67,6 +71,7 @@ void				ft_ls(int flag, char *path);
 
 void				add_list(t_path **p, char *str);
 void				delete_list(t_path **p);
+int					length_list(t_path *path);
 
 /*
 ** L
@@ -93,4 +98,8 @@ void				sort(t_path **list);
 */
 void				type(struct stat sb, char **str);
 void				all_attribut(t_path **p);
+/*
+** display columns
+*/
+void    			column_display(t_path *list, struct winsize w, int nbr_list);
 #endif

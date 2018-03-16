@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-static void		check_data(int ac, char **av, t_env *e)
+static void		check_flag(int ac, char **av, t_env *e)
 {
 	int i;
 	int j;
@@ -43,12 +43,12 @@ static void		check_data(int ac, char **av, t_env *e)
 
 int	main(int ac, char **av)
 {
-	t_env	e;
-	t_path	*p;
+	t_env			e;
+	t_path			*p;
 
 	e.flag = 0;
 	e.list = NULL;
-	check_data(ac, av, &e);
+	check_flag(ac, av, &e);
 	if (!(e.list))
 		add_list(&(e.list), ".");
 	p = e.list;

@@ -23,7 +23,7 @@ INCLUD  = ./include
 LIB = libft/libft.a
 LIBPRINTF = libprint/libp.a
 
-SRC = ft_ls.c ft_simple_print.c list.c main.c treatement_flag.c sorting.c attribut.c info.c\
+SRC = ft_ls.c ft_simple_print.c list.c main.c treatement_flag.c sorting.c attribut.c info.c column_display.c\
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRC:.c=.o))
 
