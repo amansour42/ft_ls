@@ -25,9 +25,9 @@ static t_path  *files(char *str)
     while ((flow = readdir(dir)))
     {
       if (ft_strcmp(flow->d_name, ".") && ft_strcmp(flow->d_name, ".."))
-          add_list(&files, ft_strjoin(s, flow->d_name));
-      else 
-          add_list(&files, flow->d_name);
+          add_list(&files, flow->d_name); //ft_strjoin(s, flow->d_name));
+      //else 
+      //    add_list(&files, flow->d_name);
     }
   sort(&files);
   return (files);
@@ -47,7 +47,7 @@ void	ft_ls(int flag, char *str)
     tmp = path;
     while (tmp)
     {
-      while (tmp && (!opendir(tmp->path) || !ft_strcmp(tmp->path, "..") || !ft_strcmp(tmp->path, ".")))
+      while (tmp && (!opendir(tmp->path)))//|| !ft_strcmp(tmp->path, "..") || !ft_strcmp(tmp->path, ".")))
         tmp = tmp->next;
       if (tmp)
       {

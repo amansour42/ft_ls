@@ -21,7 +21,7 @@ static void  attribut(t_path *path)
     perror("stat");
     exit(EXIT_SUCCESS);
   }
-  type(sb, &(path->type)); 
+  //type(sb, &(path->type)); 
   path->inoeud = (long)sb.st_ino;
   path->mode = (unsigned long)sb.st_mode;
   path->links = sb.st_nlink;

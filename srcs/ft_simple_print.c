@@ -25,7 +25,7 @@ t_path		*files(char *str)
 	else
 	{
 		perror("ERROR");
-		return (NULL);
+		exit (0);
 	}
 	sort(&files);
 	return (files);
@@ -48,6 +48,25 @@ static void		list_to_print(t_path **l)
 	*l = new;
 }
 
+static void		list_to_path(t_path **list, char *str)
+{
+	t_path	*tmp;
+	t_path	*new;
+	char	*s;
+
+	tmp = *list;
+	new = NULL;
+	while (tmp)
+	{
+		s = ft_strjoin(str, tmp->path);
+		add_list(&new, s);
+		tmp = tmp->next;
+		free(s);
+	}
+	delete_list(list);
+	*list = new;
+}
+
 void		print_list(int flag, char *str)
 {
 	t_path	  		*path;
@@ -63,15 +82,13 @@ void		print_list(int flag, char *str)
 	if ((flag & A) == 0)
 		list_to_print(&path);
 	str = ft_strjoin(str, "/");
+	list_to_path(&path, str);
 	if (flag & L)
-	{
-		//printf("%s", path->path);
 		print_with_blocks(path, str);
-	}
 	else if (isatty(STDOUT_FILENO))
 	{
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-		column_display(path, w, length_list(path));
+		column_display(path, w, length_list(path), ft_strlen(str));
 	}
 	else
     {
@@ -81,6 +98,6 @@ void		print_list(int flag, char *str)
             ft_printf("%s\n", tmp->path);
             tmp = tmp->next;
         }
-        ft_printf("%s\n", tmp->path);
+        ft_printf("%s\n", tmp->path + ft_strlen(str));
     }
 }
