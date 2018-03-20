@@ -36,44 +36,35 @@ void    column_display(t_path *list, struct winsize w, int nbr_list)
     int     max_size;
     int     nbr_column;
     int     nbr_line;
-    t_path  *tmp;
     t_path  *tmp2;
     int     i;
     int     j;
     int     k;
 
     max_size = ft_size(list);
-    nbr_column = w.ws_col / (max_size + 10);
+    nbr_column = w.ws_col / (max_size + 6);
     nbr_line = nbr_list / nbr_column;
     nbr_line += (nbr_list % nbr_column) ? 1 : 0;
-    printf("NBR LINE ==>%d\n", nbr_column);
     i = -1;
-    tmp = list;
-    while(++i < nbr_line - 1)
+    while(nbr_line)
     {
         tmp2 = NULL;
         k = -1;
-        while (++k < nbr_column && tmp)
+        while (++k < nbr_column && list)
         {
-            display_string(tmp->path, max_size);
+            display_string(list->path, max_size);
             j = 1;
-            tmp = tmp->next;
-            while (tmp && j < nbr_line)
+            delete_link(&list, list);
+            while (list && j < nbr_line)
             {
-                add_list(&tmp2, tmp->path);
-                tmp = tmp->next;
+                add_list(&tmp2, list->path);
+                delete_link(&list, list);
                 ++j;
             }
         }
-        delete_list(&tmp);
+        delete_list(&list);
         printf("\n");
-        tmp = tmp2;
+        list = tmp2;
+        nbr_line--;
     }
-    //tmp2 = tmp;
-    while (tmp)
-    {
-        display_string(tmp->path, max_size);
-        tmp = tmp->next;
-    }
-    printf("\n");
 }

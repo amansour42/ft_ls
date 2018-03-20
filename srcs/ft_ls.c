@@ -38,7 +38,7 @@ void	ft_ls(int flag, char *str)
   t_path  *path;
   t_path  *tmp;
 
-	print_without_blocs(flag, str);
+	print_list(flag, str);
   if (flag & BIGR)
   {
     path = files(str);

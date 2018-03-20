@@ -76,10 +76,10 @@ int					length_list(t_path *path);
 /*
 ** L
 */
-void				print_with_blocs(int flag, char *str);
+void				print_list(int flag, char *str);
 void				print_recursive(int flag, char *str);
 void				print_without_blocs(int flag, char *str);
-
+void        		print_with_blocks(t_path *list);
 /*
 ** treatement
 */

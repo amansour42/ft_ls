@@ -48,7 +48,7 @@ static void		list_to_print(t_path **l)
 	*l = new;
 }
 
-void		print_without_blocs(int flag, char *str)
+void		print_list(int flag, char *str)
 {
 	t_path	  		*path;
 	t_path			*tmp;
@@ -60,9 +60,11 @@ void		print_without_blocs(int flag, char *str)
 		reverse_list(&path);
 	else if (flag & T)
 		time_listing(&path);
-	if ((flag & R) == 0)
+	if ((flag & A) == 0)
 		list_to_print(&path);
-	if (isatty(STDOUT_FILENO))
+	if (flag & L)
+		print_with_blocks(path);
+	else if (isatty(STDOUT_FILENO))
 	{
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		column_display(path, w, length_list(path));
