@@ -79,7 +79,7 @@ int					length_list(t_path *path);
 void				print_list(int flag, char *str);
 void				print_recursive(int flag, char *str);
 void				print_without_blocs(int flag, char *str);
-void        		print_with_blocks(t_path *list);
+void        		print_with_blocks(t_path *list, char *str);
 /*
 ** treatement
 */

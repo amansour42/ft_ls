@@ -62,8 +62,12 @@ void		print_list(int flag, char *str)
 		time_listing(&path);
 	if ((flag & A) == 0)
 		list_to_print(&path);
+	str = ft_strjoin(str, "/");
 	if (flag & L)
-		print_with_blocks(path);
+	{
+		//printf("%s", path->path);
+		print_with_blocks(path, str);
+	}
 	else if (isatty(STDOUT_FILENO))
 	{
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
