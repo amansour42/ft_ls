@@ -35,6 +35,7 @@ void    rights(struct stat buffer)
     ((buffer.st_mode & S_IWOTH) == S_IWOTH) ? r[7]='w' : 0;
     ((buffer.st_mode & S_IXOTH) == S_IXOTH) ? r[8]='x' : 0;
     ft_printf("%s ", r);
+    free(r);
 }
 
 void     total(t_path *list)
@@ -54,7 +55,7 @@ void     total(t_path *list)
     ft_printf("total %lld\n", total);
 }
 
-void    print_link( char *s2, struct stat buffer)
+void    print_link(char *s2, struct stat buffer)
 {
     char *buf;
 
@@ -69,4 +70,5 @@ void    print_link( char *s2, struct stat buffer)
     }
     buf[buffer.st_size] = '\0';
     ft_printf(" -> %s\n", buf);
+    free(buf);
 }

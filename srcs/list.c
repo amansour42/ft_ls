@@ -32,8 +32,8 @@ void		add_list(t_path **path, char *str)
 			list->next = tmp;
 		}
 	}
-	return ;
 }
+
 
 int		length_list(t_path *path)
 {

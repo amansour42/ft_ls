@@ -12,16 +12,22 @@
 
 #include "ft_ls.h"
 
-t_path		*files(char *str)
+static t_path	*files(char *str)
 {
-	DIR				    *dir;
+	DIR				*dir;
 	struct dirent	*flow;
-	t_path			  *files;
+	t_path			*files;
 
 	files = NULL;
 	if ((dir = opendir(str)))
+	{
 		while ((flow = readdir(dir)))
+		{
 			add_list(&files, flow->d_name);
+			free(flow);
+		}
+		free(dir);
+	}
 	else
 	{
 		perror("ERROR");
@@ -72,32 +78,34 @@ void		print_list(int flag, char *str)
 	t_path	  		*path;
 	t_path			*tmp;
 	struct winsize 	w;
+	char			*s;
 
-	if (!(path = files(str)))
-		return ;
+	path = files(str);
   	if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
 		time_listing(&path);
 	if ((flag & A) == 0)
 		list_to_print(&path);
-	str = ft_strjoin(str, "/");
-	list_to_path(&path, str);
+	s = ft_strjoin(str, "/");
+	list_to_path(&path, s);
 	if (flag & L)
-		print_with_blocks(path, str);
+		print_with_blocks(path, s);
 	else if (isatty(STDOUT_FILENO))
 	{
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-		column_display(path, w, length_list(path), ft_strlen(str));
+		column_display(&path, w, length_list(path), ft_strlen(s));
 	}
 	else
     {
 		tmp = path;
-        while (tmp->next!=NULL)
+        while (tmp->next)
         {
-            ft_printf("%s\n", tmp->path);
+            ft_printf("%s\n", tmp->path + ft_strlen(s));
             tmp = tmp->next;
         }
-        ft_printf("%s\n", tmp->path + ft_strlen(str));
+		ft_printf("%s\n", tmp->path + ft_strlen(s));
     }
+	free(s);
+	delete_list(&path);
 }

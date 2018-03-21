@@ -31,7 +31,7 @@ static void    display_string(char *str, int max_size, int n)
         h++;
     }
 }
-void    column_display(t_path *list, struct winsize w, int nbr_list, int n)
+void    column_display(t_path **list, struct winsize w, int nbr_list, int n)
 {
     int     max_size;
     int     nbr_column;
@@ -41,30 +41,31 @@ void    column_display(t_path *list, struct winsize w, int nbr_list, int n)
     int     j;
     int     k;
 
-    max_size = ft_size(list);
+    max_size = ft_size(*list);
     nbr_column = w.ws_col / (max_size + 6);
     nbr_line = nbr_list / nbr_column;
     nbr_line += (nbr_list % nbr_column) ? 1 : 0;
     i = -1;
-    while(nbr_line)
+    while(nbr_line > 0)
     {
         tmp2 = NULL;
         k = -1;
-        while (++k < nbr_column && list)
+        while (++k < nbr_column && *list)
         {
-            display_string(list->path, max_size, n);
+            display_string((*list)->path, max_size, n);
             j = 1;
-            delete_link(&list, list);
-            while (list && j < nbr_line)
+            delete_link(list, *list);
+            while (*list && j < nbr_line)
             {
-                add_list(&tmp2, list->path);
-                delete_link(&list, list);
+                add_list(&tmp2, (*list)->path);
+                delete_link(list, *list);
                 ++j;
             }
         }
-        delete_list(&list);
+        delete_list(list);
         printf("\n");
-        list = tmp2;
+        *list = tmp2;
         nbr_line--;
     }
+    *list = NULL;
 }

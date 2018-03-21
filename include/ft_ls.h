@@ -96,10 +96,16 @@ void				sort(t_path **list);
 /*
 ** attributs
 */
-void				type(struct stat sb, char **str);
 void				all_attribut(t_path **p);
 /*
 ** display columns
 */
-void    			column_display(t_path *list, struct winsize w, int nbr_list);
+void    			column_display(t_path **list, struct winsize w, int nbr_list, int n);
+/*
+** print_blocks
+*/
+void				type(struct stat buffer);
+void				rights(struct stat buffer);
+void   				print_link(char *s2, struct stat buffer);
+void     			total(t_path *list);
 #endif
