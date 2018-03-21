@@ -22,17 +22,14 @@ static t_path	*files(char *str)
 	if ((dir = opendir(str)))
 	{
 		while ((flow = readdir(dir)))
-		{
 			add_list(&files, flow->d_name);
-			free(flow);
-		}
-		free(dir);
 	}
 	else
 	{
 		perror("ERROR");
 		exit (0);
 	}
+	closedir(dir);
 	sort(&files);
 	return (files);
 }

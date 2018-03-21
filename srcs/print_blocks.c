@@ -35,7 +35,6 @@ void    rights(struct stat buffer)
     ((buffer.st_mode & S_IWOTH) == S_IWOTH) ? r[7]='w' : 0;
     ((buffer.st_mode & S_IXOTH) == S_IXOTH) ? r[8]='x' : 0;
     ft_printf("%s ", r);
-    free(r);
 }
 
 void     total(t_path *list)

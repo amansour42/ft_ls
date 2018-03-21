@@ -33,7 +33,7 @@ static t_path  *files(char *str)
       else
         add_list(&files, flow->d_name);
     }
-  (dir) ? free(dir) : 0;
+  (dir) ? (void)closedir(dir) : 0;
   sort(&files);
   free(s[0]);
   return (files);
