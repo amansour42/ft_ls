@@ -93,10 +93,7 @@ void				delete_link(t_path **path, t_path *to_delete);
 */
 
 void				sort(t_path **list);
-/*
-** attributs
-*/
-void				all_attribut(t_path **p);
+
 /*
 ** display columns
 */
