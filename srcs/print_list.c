@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 08:25:00 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/22 08:25:03 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 11:33:11 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static t_path		*files(char *str)
 	{
 		while ((flow = readdir(dir)))
 			add_list(&files, flow->d_name);
+		closedir(dir);
+		sort(&files);
+		return (files);
 	}
-	else
-		error("ERROR");
-	closedir(dir);
-	sort(&files);
+	perror("ERROR");
 	return (files);
 }
 
-static void			list_to_print(t_path **l)
+void				list_to_print(t_path **l)
 {
 	t_path *tmp;
 	t_path *new;
@@ -67,7 +67,7 @@ static void			list_to_path(t_path **list, char *str)
 	*list = new;
 }
 
-static void			print_minus_one(t_path *list, char *s)
+void				print_minus_one(t_path *list, char *s)
 {
 	t_path *tmp;
 
@@ -84,7 +84,6 @@ static void			print_minus_one(t_path *list, char *s)
 void				print_list(int flag, char *str)
 {
 	t_path			*path;
-	struct winsize	w;
 	char			*s;
 
 	path = files(str);
@@ -99,11 +98,6 @@ void				print_list(int flag, char *str)
 		time_listing(&path);
 	if (flag & L)
 		print_with_blocks(path, s);
-	else if ((flag & MINUS) == 0 && isatty(STDOUT_FILENO))
-	{
-		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-		column_display(&path, w, length_list(path), ft_strlen(s));
-	}
 	else
 		print_minus_one(path, s);
 	free(s);

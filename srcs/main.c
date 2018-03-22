@@ -38,22 +38,97 @@ static void		check_flag(int ac, char **av, t_env *e)
 	}
 }
 
+static int		treat_error(t_path **p)
+{
+	t_path		*tmp;
+	t_path		*tmp2;
+	struct stat	sb;
+	t_path		*error;
+
+	tmp = NULL;
+	tmp2 = *p;
+	error = NULL;
+	while (tmp2)
+	{
+		(lstat(tmp2->path, &sb) == -1) ? add_list(&error, tmp2->path) :
+			add_list(&tmp, tmp2->path);
+		tmp2 = tmp2->next;
+	}
+	if (!error)
+		return (0);
+	delete_list(p);
+	*p = tmp;
+	print_error(error);
+	return (1);
+}
+
+static void		print_right_way(t_path *path, int flag)
+{
+	sort(&path);
+	if ((flag & A) == 0)
+		list_to_print(&path);
+	if (flag & R)
+		reverse_list(&path);
+	else if (flag & T)
+		time_listing(&path);
+	if (flag & L)
+		print_with_blocks(path, NULL);
+	else
+		print_minus_one(path, NULL);
+	delete_list(&path);
+}
+
+static int		treat_file(t_path **p, int flag)
+{
+	t_path		*tmp;
+	t_path 		*tmp2;
+	t_path		*file;
+	struct stat	sb;
+
+	tmp = NULL;
+	file = NULL;
+	tmp2 = *p;
+	while (tmp2)
+	{
+		lstat(tmp2->path, &sb);
+		(!S_ISDIR(sb.st_mode)) ? add_list(&file, tmp2->path) :
+			add_list(&tmp, tmp2->path);
+		tmp2 = tmp2->next;
+	}
+	if (!file)
+		return (0);
+	print_right_way(file, flag);
+	delete_list(p);
+	//delete_list(&file);
+	*p = tmp;
+	return (1);
+}
+
 int				main(int ac, char **av)
 {
 	t_env			e;
 	t_path			*p;
+	int				yes;
 
 	e.flag = 0;
 	e.list = NULL;
 	check_flag(ac, av, &e);
 	if (!(e.list))
 		add_list(&(e.list), ".");
+	if (!ft_strcmp((e.list)->path, "*"))
+	{
+		free(e.list->path);
+		(e.list)->path = ft_strdup(".");
+	}
 	p = e.list;
+	yes = treat_error(&p) + treat_file(&p, e.flag) + length_list(p) - 1;
+	sort(&p);
 	while (p)
 	{
+		(yes) ? ft_printf("\n%s:\n",p->path) : 0;
 		ft_ls(e.flag, p->path);
 		p = p->next;
 	}
-	delete_list(&(e.list));
+	delete_list(&p);
 	return (0);
 }

@@ -36,7 +36,7 @@ static int			big_nlink(t_path *list)
 	while (tmp)
 	{
 		if (lstat(tmp->path, &sb) == -1)
-			error("lstat");
+			perror("lstat");
 		(sb.st_nlink > big) ? big = sb.st_nlink : 0;
 		tmp = tmp->next;
 	}
@@ -54,7 +54,7 @@ static long long	big_size(t_path *list)
 	while (tmp)
 	{
 		if (lstat(tmp->path, &sb) == -1)
-			error("lstat");
+			perror("lstat");
 		(sb.st_size > big) ? big = sb.st_size : 0;
 		tmp = tmp->next;
 	}

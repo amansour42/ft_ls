@@ -12,12 +12,6 @@
 
 #include "ft_ls.h"
 
-void			error(char *str)
-{
-	perror(str);
-	exit(0);
-}
-
 static t_path	*files(char *str)
 {
 	DIR				*dir;

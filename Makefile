@@ -19,12 +19,12 @@ LDLIBSPRINTF = -lprint
 FLAGS = -Werror -Wall -Wextra
 SRC_PATH = ./srcs
 OBJ_PATH = ./obj
-INCLUD  = ./include
+INCLUD  = ./includes
 LIB = libft/libft.a
-LIBPRINTF = libprint/libp.a
+LIBPRINTF = libprint/libprint.a
 
-SRC = ft_ls.c print_list.c list.c main.c sorting.c print_column.c\
-		 long_format_listing.c print_blocks.c reverse_flag.c time_flag.c\
+SRC = ft_ls.c print_list.c list.c main.c sorting.c\
+		 long_format_listing.c print_blocks.c reverse_flag.c time_flag.c error.c\
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRC:.c=.o))
 
