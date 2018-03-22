@@ -27,7 +27,7 @@ static t_path		*files(char *str)
 		sort(&files);
 		return (files);
 	}
-	perror("ERROR");
+	ft_printf("ERROR: Permission denied\n");
 	return (files);
 }
 
@@ -100,6 +100,6 @@ void				print_list(int flag, char *str)
 		print_with_blocks(path, s);
 	else
 		print_minus_one(path, s);
-	free(s);
-	delete_list(&path);
+	//free(s);
+	//delete_list(&path);
 }

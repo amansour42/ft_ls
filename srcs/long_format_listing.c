@@ -87,15 +87,16 @@ void				print_with_blocks(t_path *list, char *str)
 	{
 		if (lstat(tmp->path, &buffer) == -1)
 		{
-			//printf("ERROR: Permission denied\n");
+			printf("ERROR: Permission denied\n");
 			tmp = tmp->next;
 			continue;
 		}
 		type(buffer);
 		rights(buffer);
 		special_print(buffer.st_nlink, nbr_nlink);
-		ft_printf(" %s  %s ", getpwuid(buffer.st_uid)->pw_name,
-				getgrgid(buffer.st_gid)->gr_name);
+		ft_printf(" ");
+		(getpwuid(buffer.st_uid)) ? ft_printf("%s", getpwuid(buffer.st_uid)->pw_name) : ft_printf("%d", buffer.st_uid);
+		ft_printf(" %s  ", getgrgid(buffer.st_gid)->gr_name);
 		special_print(buffer.st_size, nbr_size);
 		ft_printf(" %.12s %s", (ctime(&buffer.st_mtime)) + 4,
 				(tmp->path) + ft_strlen(str));

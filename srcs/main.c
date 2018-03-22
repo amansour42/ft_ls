@@ -129,6 +129,6 @@ int				main(int ac, char **av)
 		ft_ls(e.flag, p->path);
 		p = p->next;
 	}
-	delete_list(&p);
+	delete_list(&e.list);
 	return (0);
 }
