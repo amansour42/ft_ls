@@ -33,7 +33,7 @@ static t_path	*files(char *str)
 			else
 				add_list(&files, flow->d_name);
 		}
-	(dir) ? closedir(dir) : error("ERROR");
+	(dir) ? closedir(dir) : ft_printf("ERROR: Permission denied\n");
 	sort(&files);
 	free(s[0]);
 	return (files);
@@ -43,8 +43,7 @@ static int		is_dir(char *str)
 {
 	struct stat sb;
 
-	if (lstat(str, &sb) == -1)
-		error("lstat");
+	lstat(str, &sb);
 	return ((S_ISDIR(sb.st_mode) == 1) ? 1 : 0);
 }
 

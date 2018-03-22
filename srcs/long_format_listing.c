@@ -35,9 +35,8 @@ static int			big_nlink(t_path *list)
 	big = 0;
 	while (tmp)
 	{
-		if (lstat(tmp->path, &sb) == -1)
-			perror("lstat");
-		(sb.st_nlink > big) ? big = sb.st_nlink : 0;
+		if (lstat(tmp->path, &sb) != -1)
+			(sb.st_nlink > big) ? big = sb.st_nlink : 0;
 		tmp = tmp->next;
 	}
 	return (length_nbr(big));
@@ -53,9 +52,8 @@ static long long	big_size(t_path *list)
 	big = 0;
 	while (tmp)
 	{
-		if (lstat(tmp->path, &sb) == -1)
-			perror("lstat");
-		(sb.st_size > big) ? big = sb.st_size : 0;
+		if (lstat(tmp->path, &sb) != -1)
+			(sb.st_size > big) ? big = sb.st_size : 0;
 		tmp = tmp->next;
 	}
 	return (length_nbr(big));
@@ -87,7 +85,12 @@ void				print_with_blocks(t_path *list, char *str)
 	total(list);
 	while (tmp)
 	{
-		(lstat(tmp->path, &buffer) == -1) ? error("lstat") : 0;
+		if (lstat(tmp->path, &buffer) == -1)
+		{
+			//printf("ERROR: Permission denied\n");
+			tmp = tmp->next;
+			continue;
+		}
 		type(buffer);
 		rights(buffer);
 		special_print(buffer.st_nlink, nbr_nlink);
