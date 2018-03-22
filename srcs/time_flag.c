@@ -1,48 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   treatement_flag.c                                  :+:      :+:    :+:   */
+/*   time_flag.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/06 14:09:47 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/22 09:15:32 by amansour         ###   ########.fr       */
+/*   Created: 2018/03/22 10:24:32 by amansour          #+#    #+#             */
+/*   Updated: 2018/03/22 10:24:35 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void	reverse_list(t_path **list)
-{
-	t_path *res;
-	t_path *ptmp;
-	t_path *tmp;
-
-	res = NULL;
-	while (*list)
-	{
-		tmp = *list;
-		ptmp = (*list)->next;
-		while (ptmp && ptmp->next)
-		{
-			tmp = ptmp;
-			ptmp = ptmp->next;
-		}
-		(ptmp) ? add_list(&res, ptmp->path) : add_list(&res, (*list)->path);
-		(ptmp) ? free(ptmp->path) : free((*list)->path);
-		if (ptmp)
-		{
-			free(ptmp);
-			tmp->next = NULL;
-		}
-		else
-		{
-			free(*list);
-			*list = NULL;
-		}
-	}
-	*list = res;
-}
 
 void		clean_split(char **str)
 {
@@ -83,24 +51,7 @@ static int	month(char *str)
 		return (11);
 	return (12);
 }
-/*
-static int  day(char *str)
-{
-  if (!ft_strcmp(str, "Mon"))
-    return (1);
-  if (!ft_strcmp(str, "Tue"))
-    return (2);
-  if (!ft_strcmp(str, "Wen"))
-    return (3);
-  if (!ft_strcmp(str, "Thu"))
-    return (4);
-  if (!ft_strcmp(str, "Fri"))
-    return (5);
-  if (!ft_strcmp(str, "Sat"))
-    return (6);
-  return (7);
-}
-*/
+
 static int	compare_hour(char *s1, char *s2)
 {
 	char	**str1;
@@ -139,7 +90,7 @@ static int	compare_time(char *s1, char *s2)
 	return (res);
 }
 
-void	time_listing(t_path **list)
+void		time_listing(t_path **list)
 {
 	t_path *res;
 	t_path *ptmp;
@@ -156,7 +107,6 @@ void	time_listing(t_path **list)
 				ptmp = tmp;
 			tmp = tmp->next;
 		}
-		printf("REsult %s\n", ptmp->path);
 		add_list(&res, ptmp->path);
 		delete_link(list, ptmp);
 	}

@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:46:10 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/21 13:11:55 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 10:33:09 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void		add_list(t_path **path, char *str)
 			list->next = tmp;
 		}
 	}
+	else
+		error("malloc");
 }
 
 int			length_list(t_path *path)
@@ -61,29 +63,6 @@ void		delete_list(t_path **path)
 		free(p);
 	}
 }
-
-/*void		copy_data(t_path **path, t_path *to_copy)
-{
-	t_path *tmp;
-	t_path *list;
-
-	tmp = NULL;
-	if ((tmp = (t_path*)malloc(sizeof(t_path))))
-	{
-		tmp->path = ft_strdup(to_copy->path);
-		tmp->time = to_copy->time;
-		tmp->next = NULL;
-		if (!*path)
-			*path = tmp;
-		else
-		{
-			list = *path;
-			while (list->next)
-				list = list->next;
-			list->next = tmp;
-		}
-	}
-}*/
 
 void		delete_link(t_path **path, t_path *d)
 {

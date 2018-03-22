@@ -61,7 +61,5 @@ int	main(int ac, char **av)
 		p = p->next;
 	}
 	delete_list(&(e.list));
-	while (1)
-		;
 	return (0);
 }
