@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_simple_print.c                                  :+:      :+:    :+:   */
+/*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/06 15:31:48 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/29 11:27:17 by amansour         ###   ########.fr       */
+/*   Created: 2018/03/22 08:25:00 by amansour          #+#    #+#             */
+/*   Updated: 2018/03/22 08:25:03 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_path	*files(char *str)
+static t_path		*files(char *str)
 {
 	DIR				*dir;
 	struct dirent	*flow;
@@ -25,16 +25,13 @@ static t_path	*files(char *str)
 			add_list(&files, flow->d_name);
 	}
 	else
-	{
-		perror("ERROR");
-		exit (0);
-	}
+		error("ERROR");
 	closedir(dir);
 	sort(&files);
 	return (files);
 }
 
-static void		list_to_print(t_path **l)
+static void			list_to_print(t_path **l)
 {
 	t_path *tmp;
 	t_path *new;
@@ -51,7 +48,7 @@ static void		list_to_print(t_path **l)
 	*l = new;
 }
 
-static void		list_to_path(t_path **list, char *str)
+static void			list_to_path(t_path **list, char *str)
 {
 	t_path	*tmp;
 	t_path	*new;
@@ -70,22 +67,36 @@ static void		list_to_path(t_path **list, char *str)
 	*list = new;
 }
 
-void		print_list(int flag, char *str)
+static void			print_minus_one(t_path *list, char *s)
 {
-	t_path	  		*path;
-	t_path			*tmp;
-	struct winsize 	w;
+	t_path *tmp;
+
+	tmp = list;
+	while (tmp && tmp->next)
+	{
+		ft_printf("%s\n", tmp->path + ft_strlen(s));
+		tmp = tmp->next;
+	}
+	if (tmp)
+		ft_printf("%s\n", tmp->path + ft_strlen(s));
+}
+
+void				print_list(int flag, char *str)
+{
+	t_path			*path;
+	struct winsize	w;
 	char			*s;
 
 	path = files(str);
-  	if (flag & R)
+	((flag & A) == 0) ? list_to_print(&path) : 0;
+	if (path == NULL)
+		return ;
+	s = ft_strjoin(str, "/");
+	list_to_path(&path, s);
+	if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
 		time_listing(&path);
-	if ((flag & A) == 0)
-		list_to_print(&path);
-	s = ft_strjoin(str, "/");
-	list_to_path(&path, s);
 	if (flag & L)
 		print_with_blocks(path, s);
 	else if (isatty(STDOUT_FILENO))
@@ -94,15 +105,7 @@ void		print_list(int flag, char *str)
 		column_display(&path, w, length_list(path), ft_strlen(s));
 	}
 	else
-    {
-		tmp = path;
-        while (tmp->next)
-        {
-            ft_printf("%s\n", tmp->path + ft_strlen(s));
-            tmp = tmp->next;
-        }
-		ft_printf("%s\n", tmp->path + ft_strlen(s));
-    }
+		print_minus_one(path, s);
 	free(s);
 	delete_list(&path);
 }

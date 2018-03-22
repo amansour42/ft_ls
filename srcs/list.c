@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:46:10 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/29 10:42:04 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/21 13:11:55 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void		add_list(t_path **path, char *str)
 	}
 }
 
-
-int		length_list(t_path *path)
+int			length_list(t_path *path)
 {
 	t_path	*tmp;
 	int		len;
@@ -93,19 +92,19 @@ void		delete_link(t_path **path, t_path *d)
 
 	tmp = NULL;
 	p = *path;
-	while (p && p->path != d->path && p->time != d->time)
-  {
-    tmp = p;
-    p = p->next;
-  }
-  if (!tmp)
-  {
-    *path = (*path)->next;
-    free(p->path);
-    free(p);
-    return ;
-  }
-  tmp->next = p->next;
-  free(p->path);
-  free(p);
+	while (p && p->path != d->path)
+	{
+		tmp = p;
+		p = p->next;
+	}
+	if (!tmp)
+	{
+		*path = (*path)->next;
+		free(p->path);
+		free(p);
+		return ;
+	}
+	tmp->next = p->next;
+	free(p->path);
+	free(p);
 }

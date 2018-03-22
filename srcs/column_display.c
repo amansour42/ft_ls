@@ -50,7 +50,7 @@ void    column_display(t_path **list, struct winsize w, int nbr_list, int n)
     {
         tmp2 = NULL;
         k = -1;
-        while (++k < nbr_column && *list)
+        while (*list && ++k < nbr_column)
         {
             display_string((*list)->path, max_size, n);
             j = 1;
@@ -63,9 +63,9 @@ void    column_display(t_path **list, struct winsize w, int nbr_list, int n)
             }
         }
         delete_list(list);
-        printf("\n");
+        ft_printf("\n");
         *list = tmp2;
-        nbr_line--;
+        --nbr_line;
     }
     *list = NULL;
 }

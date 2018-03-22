@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 14:09:47 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/26 17:04:33 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 09:15:32 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,17 @@ static int	compare_hour(char *s1, char *s2)
 
 static int	compare_time(char *s1, char *s2)
 {
-	char	**str1;
-	char	**str2;
-	int		res;
-  struct stat sb;
+	char		**str1;
+	char		**str2;
+	int			res;
+	struct stat	sb;
 
-  stat(s1, &sb);
-  str1 = ft_strsplit(ctime(&sb.st_ctime), ' ');
-  stat(s2, &sb);
-	str2 = ft_strsplit(ctime(&sb.st_ctime), ' ');
+	if (stat(s1, &sb) == -1)
+		error("stat");
+	str1 = ft_strsplit(ctime(&sb.st_mtime), ' ');
+	if (stat(s2, &sb) == -1)
+		error("stat");
+	str2 = ft_strsplit(ctime(&sb.st_mtime), ' ');
 	if (!(res = ft_atoi(str1[4]) - ft_atoi(str2[4])))
 		if (!(res = month(str1[1]) - month(str2[1])))
 			if (!(res = ft_atoi(str1[2]) - ft_atoi(str2[2])))
@@ -154,8 +156,8 @@ void	time_listing(t_path **list)
 				ptmp = tmp;
 			tmp = tmp->next;
 		}
-    printf("REsult %s\n", ptmp->path);
-		copy_data(&res, ptmp);
+		printf("REsult %s\n", ptmp->path);
+		add_list(&res, ptmp->path);
 		delete_link(list, ptmp);
 	}
 	*list = res;

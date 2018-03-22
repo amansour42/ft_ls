@@ -64,7 +64,7 @@ int					main(int ac, char **av);
 ** ft_ls
 */
 void				ft_ls(int flag, char *path);
-
+void		        error(char *str);
 /*
 ** list
 */

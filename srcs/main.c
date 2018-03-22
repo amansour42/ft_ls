@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:18:43 by amansour          #+#    #+#             */
-/*   Updated: 2018/01/26 15:01:28 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 09:03:53 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void		check_flag(int ac, char **av, t_env *e)
 {
 	int i;
 	int j;
+
 	i = 0;
 	while (++i < ac)
 	{
@@ -58,6 +59,7 @@ int	main(int ac, char **av)
 		p = p->next;
 	}
 	delete_list(&(e.list));
-	while (1);
+	while (1)
+		;
 	return (0);
 }

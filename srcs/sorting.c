@@ -6,13 +6,13 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:21:19 by amansour          #+#    #+#             */
-/*   Updated: 2017/12/07 10:14:59 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 09:05:38 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int				empty_list(t_path *l)
+static int			empty_list(t_path *l)
 {
 	t_path	*p;
 
@@ -26,7 +26,7 @@ int				empty_list(t_path *l)
 	return (1);
 }
 
-void			put_null(t_path **l, char *str)
+static void			put_null(t_path **l, char *str)
 {
 	t_path *list;
 
@@ -37,7 +37,7 @@ void			put_null(t_path **l, char *str)
 	list->path = ft_strdup("");
 }
 
-void			sort(t_path **list)
+void				sort(t_path **list)
 {
 	t_path	*l;
 	char	*str;
@@ -55,7 +55,7 @@ void			sort(t_path **list)
 		tmp = tmp->next;
 		while (tmp)
 		{
-			if (tmp->path[0] != '\0'  && ft_strcmp(tmp->path, str) < 0)
+			if (tmp->path[0] != '\0' && ft_strcmp(tmp->path, str) < 0)
 				str = tmp->path;
 			tmp = tmp->next;
 		}
