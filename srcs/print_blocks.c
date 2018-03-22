@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 08:32:13 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/22 08:32:15 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 10:48:04 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	total(t_path *list)
 	while (tmp)
 	{
 		lstat(tmp->path, &sb);
-		total += sb.st_blocks; 
+		total += sb.st_blocks;
 		tmp = tmp->next;
 	}
 	ft_printf("total %lld\n", total);
@@ -72,7 +72,7 @@ void	print_link(char *s2, struct stat buffer)
 
 	if (!(buf = malloc(buffer.st_size)))
 		error("malloc");
-	if ((readlink(s2, buf, buffer.st_size))== -1)
+	if ((readlink(s2, buf, buffer.st_size)) == -1)
 		error("readlink");
 	buf[buffer.st_size] = '\0';
 	ft_printf(" -> %s\n", buf);

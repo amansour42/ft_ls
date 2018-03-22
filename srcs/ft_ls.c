@@ -6,13 +6,13 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:53:36 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/21 12:52:16 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/22 10:46:58 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		        error(char *str)
+void			error(char *str)
 {
 	perror(str);
 	exit(0);
