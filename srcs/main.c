@@ -35,6 +35,8 @@ static void		check_flag(int ac, char **av, t_env *e)
 					e->flag |= BIGR;
 				else if (av[i][j] == 't')
 					e->flag |= T;
+				else if (av[i][j] == '1')
+					e->flag |= MINUS;
 			}
 		}
 		else

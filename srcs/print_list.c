@@ -99,7 +99,7 @@ void				print_list(int flag, char *str)
 		time_listing(&path);
 	if (flag & L)
 		print_with_blocks(path, s);
-	else if (isatty(STDOUT_FILENO))
+	else if ((flag & MINUS) == 0 && isatty(STDOUT_FILENO))
 	{
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		column_display(&path, w, length_list(path), ft_strlen(s));

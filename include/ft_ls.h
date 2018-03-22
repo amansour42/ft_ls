@@ -12,12 +12,13 @@
 
 #ifndef FT_LS_H
 # define FT_LS_H
-# define FLAG		"lRrat"
+# define FLAG		"lRrat1"
 # define L			0x01
 # define A			0x02
 # define R			0x04
 # define BIGR		0x08
 # define T			0x10
+# define MINUS		0x20
 # define LIST		e->list
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -38,17 +39,6 @@
 typedef struct		s_path
 {
 	char			*path;
-	char			*type;
-	long			inoeud;
-	long			links;
-	unsigned long	mode;
-	char			*owner;
-	char			*group;
-	long long		blocs;
-	long long		size;
-	time_t			last_access;
-	time_t			last_mod;
-	time_t			time;
 	struct s_path	*next;
 }					t_path;
 
@@ -85,7 +75,6 @@ void        		print_with_blocks(t_path *list, char *str);
 */
 void				reverse_list(t_path **list);
 void				time_listing(t_path **list);
-void				copy_data(t_path **path, t_path *to_copy);
 void				delete_link(t_path **path, t_path *to_delete);
 
 /*

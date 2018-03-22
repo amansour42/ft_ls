@@ -62,7 +62,7 @@ void		delete_list(t_path **path)
 	}
 }
 
-void		copy_data(t_path **path, t_path *to_copy)
+/*void		copy_data(t_path **path, t_path *to_copy)
 {
 	t_path *tmp;
 	t_path *list;
@@ -83,7 +83,7 @@ void		copy_data(t_path **path, t_path *to_copy)
 			list->next = tmp;
 		}
 	}
-}
+}*/
 
 void		delete_link(t_path **path, t_path *d)
 {
