@@ -46,14 +46,24 @@ static long long	big_size(t_path *list)
 {
 	struct stat		sb;
 	t_path			*tmp;
-	long long		big;
+	t_device		device;
+	int				big;
 
 	tmp = list;
 	big = 0;
 	while (tmp)
 	{
 		if (lstat(tmp->path, &sb) != -1)
-			(sb.st_size > big) ? big = sb.st_size : 0;
+		{
+			if (S_ISCHR(sb.st_mode) || S_ISBLK(sb.st_mode))
+			{
+				(device.maj < major(sb.st_rdev)) ? device.maj = major(sb.st_rdev) : 0;
+				(device.min < minor(sb.st_rdev)) ? device.maj = minor(sb.st_rdev) : 0;
+				((device.maj + device.min + 2) > big) ? big = (device.maj + device.min + 2) : 0;
+			}
+			else
+				(sb.st_size > big) ? big = sb.st_size : 0;
+		}
 		tmp = tmp->next;
 	}
 	return (length_nbr(big));
@@ -79,7 +89,7 @@ static void			special_print(struct stat info, int len)
 		ft_printf("%ld, %ld ", major(info.st_rdev), minor(info.st_rdev));
 		return ;
 	}
-	special_print_2(info.st_blocks, len);
+	special_print_2(info.st_size, len);
 }
 
 void				print_with_blocks(t_path *list, char *str)

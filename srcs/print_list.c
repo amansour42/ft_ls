@@ -109,10 +109,10 @@ void				print_list(int flag, char *str)
 		return ;
 	s = ft_strjoin(str, "/");
 	list_to_path(&path, s);
-	/*if (flag & R)
+	if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
-		time_listing(&path);*/
+		time_listing(&path);
 	if (flag & L)
 		print_with_blocks(path, s);
 	else

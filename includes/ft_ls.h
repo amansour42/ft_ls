@@ -48,6 +48,12 @@ typedef struct		s_env
 	t_path			*list;
 }					t_env;
 
+typedef struct		s_deice
+{
+	long			maj;
+	long			min;
+}					t_device;
+
 int					main(int ac, char **av);
 
 /*
