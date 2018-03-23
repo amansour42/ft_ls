@@ -69,5 +69,5 @@ void			ft_ls(int flag, char *str)
 			tmp = tmp->next;
 		}
 	}
-	delete_list(&path);
+	//delete_list(&path);
 }

@@ -16,7 +16,7 @@ void	type(struct stat buffer)
 {
 	char	t;
 
-	t = '-';
+	t = '?';
 	if (S_ISLNK(buffer.st_mode) == 1)
 		t = 'l';
 	else if (S_ISDIR(buffer.st_mode) == 1)
@@ -29,23 +29,31 @@ void	type(struct stat buffer)
 		t = 'p';
 	else if (S_ISSOCK(buffer.st_mode) == 1)
 		t = 's';
+	else if (S_ISREG(buffer.st_mode) == 1)
+		t = '-';
 	ft_printf("%c", t);
 }
 
-void	rights(struct stat buffer)
+void	rights(struct stat sb)
 {
 	char	r[10];
 
 	ft_strcpy(r, "---------");
-	((buffer.st_mode & S_IRUSR) == S_IRUSR) ? r[0] = 'r' : 0;
-	((buffer.st_mode & S_IWUSR) == S_IWUSR) ? r[1] = 'w' : 0;
-	((buffer.st_mode & S_IXUSR) == S_IXUSR) ? r[2] = 'x' : 0;
-	((buffer.st_mode & S_IRGRP) == S_IRGRP) ? r[3] = 'r' : 0;
-	((buffer.st_mode & S_IWGRP) == S_IWGRP) ? r[4] = 'w' : 0;
-	((buffer.st_mode & S_IXGRP) == S_IXGRP) ? r[5] = 'x' : 0;
-	((buffer.st_mode & S_IROTH) == S_IROTH) ? r[6] = 'r' : 0;
-	((buffer.st_mode & S_IWOTH) == S_IWOTH) ? r[7] = 'w' : 0;
-	((buffer.st_mode & S_IXOTH) == S_IXOTH) ? r[8] = 'x' : 0;
+	((sb.st_mode & S_IRUSR) == S_IRUSR) ? r[0] = 'r' : 0;
+	((sb.st_mode & S_IWUSR) == S_IWUSR) ? r[1] = 'w' : 0;
+	((sb.st_mode & S_IXUSR) == S_IXUSR) ? r[2] = 'x' : 0;
+	((sb.st_mode & S_IRGRP) == S_IRGRP) ? r[3] = 'r' : 0;
+	((sb.st_mode & S_IWGRP) == S_IWGRP) ? r[4] = 'w' : 0;
+	((sb.st_mode & S_IXGRP) == S_IXGRP) ? r[5] = 'x' : 0;
+	((sb.st_mode & S_IROTH) == S_IROTH) ? r[6] = 'r' : 0;
+	((sb.st_mode & S_IWOTH) == S_IWOTH) ? r[7] = 'w' : 0;
+	((sb.st_mode & S_IXOTH) == S_IXOTH) ? r[8] = 'x' : 0;
+	if (sb.st_mode & S_ISUID)
+        r[2] = (sb.st_mode & S_IXUSR) ? 's' : 'S';
+    if (sb.st_mode & S_ISGID)
+        r[5] = (sb.st_mode & S_IXGRP) ? 's' : 'l';
+    if (sb.st_mode & S_ISVTX)
+        r[8] = (sb.st_mode & S_IXOTH) ? 't' : 'T';
 	ft_printf("%s ", r);
 }
 
@@ -70,9 +78,9 @@ void	print_link(char *s2, struct stat buffer)
 {
 	char *buf;
 
-	if (!(buf = malloc(buffer.st_size)))
+	if (!(buf = malloc(buffer.st_size + 1)))
 		error("malloc");
-	if ((readlink(s2, buf, buffer.st_size)) == -1)
+	if ((readlink(s2, buf, buffer.st_size + 1)) == -1)
 		error("readlink");
 	buf[buffer.st_size] = '\0';
 	ft_printf(" -> %s\n", buf);

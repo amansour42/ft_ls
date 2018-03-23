@@ -91,7 +91,9 @@ static int		treat_file(t_path **p, int flag)
 	while (tmp2)
 	{
 		lstat(tmp2->path, &sb);
-		(!S_ISDIR(sb.st_mode)) ? add_list(&file, tmp2->path) :
+		if ((S_ISLNK(sb.st_mode) && (flag & L)) || (!S_ISDIR(sb.st_mode) && !S_ISLNK(sb.st_mode)))
+			add_list(&file, tmp2->path);
+		else
 			add_list(&tmp, tmp2->path);
 		tmp2 = tmp2->next;
 	}
@@ -127,8 +129,8 @@ int				main(int ac, char **av)
 	{
 		(yes) ? ft_printf("\n%s:\n",p->path) : 0;
 		ft_ls(e.flag, p->path);
-		p = p->next;
+		delete_link(&p, p);
 	}
-	delete_list(&e.list);
+	//delete_list(&e.list);
 	return (0);
 }

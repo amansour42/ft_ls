@@ -31,6 +31,22 @@ static t_path		*files(char *str)
 	return (files);
 }
 
+static	int			is_hidden(char *str)
+{
+	size_t i;
+
+	i = 0;
+	while (str[i] && str[i] != '/')
+		++i;
+	if (i == ft_strlen(str))
+		i = 0;
+	else
+		++i;
+	if (str[i] == '.')
+		return (0);
+	return (1);
+}
+
 void				list_to_print(t_path **l)
 {
 	t_path *tmp;
@@ -40,7 +56,7 @@ void				list_to_print(t_path **l)
 	new = NULL;
 	while (tmp)
 	{
-		if (tmp->path[0] != '.')
+		if (is_hidden(tmp->path))
 			add_list(&new, tmp->path);
 		tmp = tmp->next;
 	}
@@ -86,20 +102,21 @@ void				print_list(int flag, char *str)
 	t_path			*path;
 	char			*s;
 
-	path = files(str);
+	if (!(path = files(str)))
+		return ;
 	((flag & A) == 0) ? list_to_print(&path) : 0;
 	if (path == NULL)
 		return ;
 	s = ft_strjoin(str, "/");
 	list_to_path(&path, s);
-	if (flag & R)
+	/*if (flag & R)
 		reverse_list(&path);
 	else if (flag & T)
-		time_listing(&path);
+		time_listing(&path);*/
 	if (flag & L)
 		print_with_blocks(path, s);
 	else
 		print_minus_one(path, s);
-	//free(s);
+	free(s);
 	//delete_list(&path);
 }

@@ -59,7 +59,7 @@ static long long	big_size(t_path *list)
 	return (length_nbr(big));
 }
 
-static void			special_print(long long nbr, int len)
+static void			special_print_2(long long nbr, int len)
 {
 	int i;
 
@@ -72,6 +72,16 @@ static void			special_print(long long nbr, int len)
 	ft_printf("%lld", nbr);
 }
 
+static void			special_print(struct stat info, int len)
+{
+	if (S_ISCHR(info.st_mode) || S_ISBLK(info.st_mode))
+	{	
+		ft_printf("%ld, %ld ", major(info.st_rdev), minor(info.st_rdev));
+		return ;
+	}
+	special_print_2(info.st_blocks, len);
+}
+
 void				print_with_blocks(t_path *list, char *str)
 {
 	struct stat	buffer;
@@ -82,7 +92,7 @@ void				print_with_blocks(t_path *list, char *str)
 	tmp = list;
 	nbr_nlink = big_nlink(list);
 	nbr_size = big_size(list);
-	total(list);
+	(str) ? total(list) : 0;
 	while (tmp)
 	{
 		if (lstat(tmp->path, &buffer) == -1)
@@ -93,15 +103,14 @@ void				print_with_blocks(t_path *list, char *str)
 		}
 		type(buffer);
 		rights(buffer);
-		special_print(buffer.st_nlink, nbr_nlink);
-		ft_printf(" ");
-		(getpwuid(buffer.st_uid)) ? ft_printf("%s", getpwuid(buffer.st_uid)->pw_name) : ft_printf("%d", buffer.st_uid);
-		ft_printf(" %s  ", getgrgid(buffer.st_gid)->gr_name);
-		special_print(buffer.st_size, nbr_size);
+		special_print_2(buffer.st_nlink, nbr_nlink);
+		(getpwuid(buffer.st_uid)) ? ft_printf(" %s", getpwuid(buffer.st_uid)->pw_name) : ft_printf(" %d", buffer.st_uid);
+		(getgrgid(buffer.st_gid)) ? ft_printf(" %s ", getgrgid(buffer.st_gid)->gr_name) : ft_printf(" %d ", buffer.st_gid);
+		special_print(buffer, nbr_size);
 		ft_printf(" %.12s %s", (ctime(&buffer.st_mtime)) + 4,
 				(tmp->path) + ft_strlen(str));
 		(S_ISLNK(buffer.st_mode) == 1) ? print_link(tmp->path, buffer) :
-			ft_printf("\n");
+		ft_printf("\n");
 		tmp = tmp->next;
 	}
 }
