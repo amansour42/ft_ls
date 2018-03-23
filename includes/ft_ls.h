@@ -50,8 +50,12 @@ typedef struct		s_env
 
 typedef struct		s_deice
 {
-	long			maj;
-	long			min;
+	int				maj;
+	int				min;
+	int				big;
+	int				link;
+	int				usr;
+	int				grp;
 }					t_device;
 
 int					main(int ac, char **av);
@@ -95,6 +99,9 @@ void				type(struct stat buffer);
 void				rights(struct stat buffer);
 void				print_link(char *s2, struct stat buffer);
 void				total(t_path *list);
+void				special_print_2(long long nbr, int len);
+void				print_usr_grp(struct stat sb, t_device d);
+int					length_nbr(long long nbr);
 /*
 ** error
 */

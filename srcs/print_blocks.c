@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	type(struct stat buffer)
+void		type(struct stat buffer)
 {
 	char	t;
 
@@ -34,7 +34,7 @@ void	type(struct stat buffer)
 	ft_printf("%c", t);
 }
 
-void	rights(struct stat sb)
+void		rights(struct stat sb)
 {
 	char	r[10];
 
@@ -57,7 +57,7 @@ void	rights(struct stat sb)
 	ft_printf("%s ", r);
 }
 
-void	total(t_path *list)
+void		total(t_path *list)
 {
 	struct stat		sb;
 	t_path			*tmp;
@@ -74,7 +74,7 @@ void	total(t_path *list)
 	ft_printf("total %lld\n", total);
 }
 
-void	print_link(char *s2, struct stat buffer)
+void		print_link(char *s2, struct stat buffer)
 {
 	char *buf;
 
@@ -85,4 +85,43 @@ void	print_link(char *s2, struct stat buffer)
 	buf[buffer.st_size] = '\0';
 	ft_printf(" -> %s\n", buf);
 	free(buf);
+}
+
+void		special_print_2(long long nbr, int len)
+{
+	int i;
+
+	i = len - length_nbr(nbr) + 1;
+	while (i > 0)
+	{
+		ft_printf(" ");
+		--i;
+	}
+	ft_printf("%lld", nbr);
+}
+
+static void	special_print_3(char *str, int len)
+{
+	int i;
+
+	i = len - ft_strlen(str) + 1;
+	ft_printf("%s", str);
+	while (i > 0)
+	{
+		ft_printf(" ");
+		--i;
+	}
+}
+
+void	print_usr_grp(struct stat buffer, t_device d)
+{
+	if (getpwuid(buffer.st_uid))
+		special_print_3(getpwuid(buffer.st_uid)->pw_name, d.usr);
+	else
+		special_print_2(buffer.st_uid, d.usr);
+	ft_printf(" ");
+	if (getgrgid(buffer.st_gid))
+		special_print_3(getgrgid(buffer.st_gid)->gr_name, d.grp);
+	else
+		special_print_2(buffer.st_gid, d.grp);
 }
