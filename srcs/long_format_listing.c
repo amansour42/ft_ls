@@ -48,8 +48,8 @@ static t_device	big_size(t_path *list)
 				(d.min < length_nbr(minor(sb.st_rdev))) ? d.min = length_nbr(minor(sb.st_rdev)) : 0;
 				((d.maj + d.min + 3) > d.big) ? d.big = (d.maj + d.min + 3) : 0;
 			}
-			else 
-				(length_nbr(sb.st_size > d.big)) ? d.big = length_nbr(sb.st_size) : 0;
+			else
+				(length_nbr(sb.st_size) > d.big) ? d.big = length_nbr(sb.st_size) : 0;
 			(length_nbr(sb.st_nlink) > d.link) ? d.link = length_nbr(sb.st_nlink) : 0;
 			if (getpwuid(sb.st_uid))
 				(ft_strlen(getpwuid(sb.st_uid)->pw_name) > (size_t)d.usr) ? d.usr = ft_strlen(getpwuid(sb.st_uid)->pw_name): 0;
@@ -81,12 +81,11 @@ void				print_with_blocks(t_path *list, char *str)
 {
 	struct stat	buffer;
 	t_path		*tmp;
-	//int			nbr_nlink;
 	t_device	d;
 
 	tmp = list;
-	//nbr_nlink = big_nlink(list);
 	d = big_size(list);
+	printf("BIG %d\n", d.big);
 	(str) ? total(list) : 0;
 	while (tmp)
 	{

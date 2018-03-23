@@ -76,13 +76,19 @@ void		total(t_path *list)
 
 void		print_link(char *s2, struct stat buffer)
 {
-	char *buf;
+	char	*buf;
+	int		r;
 
 	if (!(buf = malloc(buffer.st_size + 1)))
 		error("malloc");
-	if ((readlink(s2, buf, buffer.st_size + 1)) == -1)
+	if ((r = (readlink(s2, buf, buffer.st_size + 1))) == -1)
 		error("readlink");
-	buf[buffer.st_size] = '\0';
+	if (r > buffer.st_size)
+	{
+        ft_printf("la taille du lien symbolique a augmente entre lstat() et readlink()\n");
+        return ;
+    }
+	buf[r] = '\0';
 	ft_printf(" -> %s\n", buf);
 	free(buf);
 }
@@ -105,7 +111,7 @@ static void	special_print_3(char *str, int len)
 	int i;
 
 	i = len - ft_strlen(str) + 1;
-	ft_printf("%s", str);
+	ft_printf(" %s", str);
 	while (i > 0)
 	{
 		ft_printf(" ");
@@ -119,7 +125,6 @@ void	print_usr_grp(struct stat buffer, t_device d)
 		special_print_3(getpwuid(buffer.st_uid)->pw_name, d.usr);
 	else
 		special_print_2(buffer.st_uid, d.usr);
-	ft_printf(" ");
 	if (getgrgid(buffer.st_gid))
 		special_print_3(getgrgid(buffer.st_gid)->gr_name, d.grp);
 	else
