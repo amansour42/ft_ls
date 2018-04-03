@@ -24,7 +24,7 @@ LIB = libft/libft.a
 LIBPRINTF = libprint/libprint.a
 
 SRC = ft_ls.c print_list.c list.c main.c sorting.c\
-		 long_format_listing.c print_blocks.c reverse_flag.c time_flag.c error.c\
+		 long_format_listing.c print_blocks_1.c reverse_flag.c time_flag.c error.c print_blocks_2.c\
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRC:.c=.o))
 

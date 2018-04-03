@@ -20,19 +20,17 @@
 # define T			0x10
 # define MINUS		0x20
 # define LIST		e->list
-# include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
 # include <time.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <termios.h>
 # include <sys/ioctl.h>
-# include <stdio.h>
-# include <signal.h>
+# include <sys/types.h>
 # include <grp.h>
 # include <pwd.h>
+# include <limits.h>
 # include "../libft/libft.h"
 # include "../libprint/includes/ft_printf.h"
 
@@ -64,7 +62,6 @@ int					main(int ac, char **av);
 ** ft_ls
 */
 void				ft_ls(int flag, char *path);
-void				error(char *str);
 /*
 ** list
 */
@@ -72,6 +69,7 @@ void				error(char *str);
 void				add_list(t_path **p, char *str);
 void				delete_list(t_path **p);
 int					length_list(t_path *path);
+void				list_to_path(t_path **list, char *str);
 
 /*
 ** L
@@ -97,13 +95,15 @@ void				sort(t_path **list);
 */
 void				type(struct stat buffer);
 void				rights(struct stat buffer);
-void				print_link(char *s2, struct stat buffer);
+void				llink(char *s2);
 void				total(t_path *list);
 void				special_print_2(long long nbr, int len);
+void				special_print(struct stat info, t_device d);
 void				print_usr_grp(struct stat sb, t_device d);
 int					length_nbr(long long nbr);
 /*
 ** error
 */
 void				print_error(t_path *p);
+void				error(char *str, t_path **p);
 #endif

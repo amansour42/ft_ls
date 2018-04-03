@@ -64,25 +64,6 @@ void				list_to_print(t_path **l)
 	*l = new;
 }
 
-static void			list_to_path(t_path **list, char *str)
-{
-	t_path	*tmp;
-	t_path	*new;
-	char	*s;
-
-	tmp = *list;
-	new = NULL;
-	while (tmp)
-	{
-		s = ft_strjoin(str, tmp->path);
-		add_list(&new, s);
-		tmp = tmp->next;
-		free(s);
-	}
-	delete_list(list);
-	*list = new;
-}
-
 void				print_minus_one(t_path *list, char *s)
 {
 	t_path *tmp;
@@ -118,5 +99,5 @@ void				print_list(int flag, char *str)
 	else
 		print_minus_one(path, s);
 	free(s);
-	//delete_list(&path);
+	delete_list(&path);
 }

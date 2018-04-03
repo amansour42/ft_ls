@@ -75,11 +75,9 @@ static int	compare_time(char *s1, char *s2)
 	int			res;
 	struct stat	sb;
 
-	if (stat(s1, &sb) == -1)
-		error("stat");
+	stat(s1, &sb);
 	str1 = ft_strsplit(ctime(&sb.st_mtime), ' ');
-	if (stat(s2, &sb) == -1)
-		error("stat");
+	stat(s2, &sb);
 	str2 = ft_strsplit(ctime(&sb.st_mtime), ' ');
 	if (!(res = ft_atoi(str1[4]) - ft_atoi(str2[4])))
 		if (!(res = month(str1[1]) - month(str2[1])))

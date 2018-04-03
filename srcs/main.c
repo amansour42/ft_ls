@@ -6,7 +6,7 @@
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 12:18:43 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/22 10:49:52 by amansour         ###   ########.fr       */
+/*   Updated: 2018/03/26 09:09:37 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,36 @@ static int		treat_error(t_path **p)
 		tmp2 = tmp2->next;
 	}
 	if (!error)
+	{
+		delete_list(&tmp);
 		return (0);
+	}
 	delete_list(p);
 	*p = tmp;
 	print_error(error);
 	return (1);
 }
 
-static void		print_right_way(t_path *path, int flag)
+static void		print_right_way(t_path **path, int flag)
 {
-	sort(&path);
+	sort(path);
 	if ((flag & A) == 0)
-		list_to_print(&path);
+		list_to_print(path);
 	if (flag & R)
-		reverse_list(&path);
+		reverse_list(path);
 	else if (flag & T)
-		time_listing(&path);
+		time_listing(path);
 	if (flag & L)
-		print_with_blocks(path, NULL);
+		print_with_blocks(*path, NULL);
 	else
-		print_minus_one(path, NULL);
-	delete_list(&path);
+		print_minus_one(*path, NULL);
+	delete_list(path);
 }
 
 static int		treat_file(t_path **p, int flag)
 {
 	t_path		*tmp;
-	t_path 		*tmp2;
+	t_path		*tmp2;
 	t_path		*file;
 	struct stat	sb;
 
@@ -91,18 +94,18 @@ static int		treat_file(t_path **p, int flag)
 	while (tmp2)
 	{
 		lstat(tmp2->path, &sb);
-		if ((S_ISLNK(sb.st_mode) && (flag & L)) || (!S_ISDIR(sb.st_mode) && !S_ISLNK(sb.st_mode)))
+		if ((S_ISLNK(sb.st_mode) && (flag & L))
+			|| (!S_ISDIR(sb.st_mode) && !S_ISLNK(sb.st_mode)))
 			add_list(&file, tmp2->path);
 		else
 			add_list(&tmp, tmp2->path);
 		tmp2 = tmp2->next;
 	}
+	delete_list(p);
+	*p = tmp;
 	if (!file)
 		return (0);
-	print_right_way(file, flag);
-	delete_list(p);
-	//delete_list(&file);
-	*p = tmp;
+	print_right_way(&file, flag);
 	return (1);
 }
 
@@ -127,10 +130,9 @@ int				main(int ac, char **av)
 	sort(&p);
 	while (p)
 	{
-		(yes) ? ft_printf("\n%s:\n",p->path) : 0;
+		(yes) ? ft_printf("\n%s:\n", p->path) : 0;
 		ft_ls(e.flag, p->path);
 		delete_link(&p, p);
 	}
-	//delete_list(&e.list);
 	return (0);
 }

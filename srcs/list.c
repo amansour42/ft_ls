@@ -33,7 +33,7 @@ void		add_list(t_path **path, char *str)
 		}
 	}
 	else
-		error("malloc");
+		error("malloc", path);
 }
 
 int			length_list(t_path *path)
@@ -86,4 +86,23 @@ void		delete_link(t_path **path, t_path *d)
 	tmp->next = p->next;
 	free(p->path);
 	free(p);
+}
+
+void		list_to_path(t_path **list, char *str)
+{
+	t_path	*tmp;
+	t_path	*new;
+	char	*s;
+
+	tmp = *list;
+	new = NULL;
+	while (tmp)
+	{
+		s = ft_strjoin(str, tmp->path);
+		add_list(&new, s);
+		tmp = tmp->next;
+		free(s);
+	}
+	delete_list(list);
+	*list = new;
 }

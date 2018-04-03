@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_blocks.c                                     :+:      :+:    :+:   */
+/*   print_blocks_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amansour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/22 08:32:13 by amansour          #+#    #+#             */
-/*   Updated: 2018/03/22 10:48:04 by amansour         ###   ########.fr       */
+/*   Created: 2018/04/03 09:58:47 by amansour          #+#    #+#             */
+/*   Updated: 2018/04/03 09:59:22 by amansour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void		rights(struct stat sb)
 	((sb.st_mode & S_IWOTH) == S_IWOTH) ? r[7] = 'w' : 0;
 	((sb.st_mode & S_IXOTH) == S_IXOTH) ? r[8] = 'x' : 0;
 	if (sb.st_mode & S_ISUID)
-        r[2] = (sb.st_mode & S_IXUSR) ? 's' : 'S';
-    if (sb.st_mode & S_ISGID)
-        r[5] = (sb.st_mode & S_IXGRP) ? 's' : 'l';
-    if (sb.st_mode & S_ISVTX)
-        r[8] = (sb.st_mode & S_IXOTH) ? 't' : 'T';
+		r[2] = (sb.st_mode & S_IXUSR) ? 's' : 'S';
+	if (sb.st_mode & S_ISGID)
+		r[5] = (sb.st_mode & S_IXGRP) ? 's' : 'l';
+	if (sb.st_mode & S_ISVTX)
+		r[8] = (sb.st_mode & S_IXOTH) ? 't' : 'T';
 	ft_printf("%s ", r);
 }
 
@@ -72,61 +72,4 @@ void		total(t_path *list)
 		tmp = tmp->next;
 	}
 	ft_printf("total %lld\n", total);
-}
-
-void		print_link(char *s2, struct stat buffer)
-{
-	char	*buf;
-	int		r;
-
-	if (!(buf = malloc(buffer.st_size + 1)))
-		error("malloc");
-	if ((r = (readlink(s2, buf, buffer.st_size + 1))) == -1)
-		error("readlink");
-	if (r > buffer.st_size)
-	{
-        ft_printf("la taille du lien symbolique a augmente entre lstat() et readlink()\n");
-        return ;
-    }
-	buf[r] = '\0';
-	ft_printf(" -> %s\n", buf);
-	free(buf);
-}
-
-void		special_print_2(long long nbr, int len)
-{
-	int i;
-
-	i = len - length_nbr(nbr) + 1;
-	while (i > 0)
-	{
-		ft_printf(" ");
-		--i;
-	}
-	ft_printf("%lld", nbr);
-}
-
-static void	special_print_3(char *str, int len)
-{
-	int i;
-
-	i = len - ft_strlen(str) + 1;
-	ft_printf(" %s", str);
-	while (i > 0)
-	{
-		ft_printf(" ");
-		--i;
-	}
-}
-
-void	print_usr_grp(struct stat buffer, t_device d)
-{
-	if (getpwuid(buffer.st_uid))
-		special_print_3(getpwuid(buffer.st_uid)->pw_name, d.usr);
-	else
-		special_print_2(buffer.st_uid, d.usr);
-	if (getgrgid(buffer.st_gid))
-		special_print_3(getgrgid(buffer.st_gid)->gr_name, d.grp);
-	else
-		special_print_2(buffer.st_gid, d.grp);
 }

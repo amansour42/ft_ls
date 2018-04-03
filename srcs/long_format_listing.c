@@ -25,6 +25,31 @@ int				length_nbr(long long nbr)
 	return (nb);
 }
 
+static t_device	init_device(void)
+{
+	t_device d;
+
+	d.big = 0;
+	d.maj = 0;
+	d.min = 0;
+	d.usr = 0;
+	d.grp = 0;
+	d.link = 0;
+	return (d);
+}
+
+static void		usr_grp_max(struct stat sb, t_device *d)
+{
+	if (getpwuid(sb.st_uid))
+		d->usr = MAX(d->usr, (int)ft_strlen(getpwuid(sb.st_uid)->pw_name));
+	else
+		d->usr = MAX(length_nbr(sb.st_uid), d->usr);
+	if (getgrgid(sb.st_gid))
+		d->grp = MAX((int)ft_strlen(getgrgid(sb.st_gid)->gr_name), d->grp);
+	else
+		d->grp = MAX(length_nbr(sb.st_gid), d->grp);
+}
+
 static t_device	big_size(t_path *list)
 {
 	struct stat		sb;
@@ -32,52 +57,29 @@ static t_device	big_size(t_path *list)
 	t_device		d;
 
 	tmp = list;
-	d.big = 0;
-	d.maj = 0;
-	d.min = 0;
-	d.usr = 0;
-	d.grp = 0;
-	d.link = 0;
+	d = init_device();
 	while (tmp)
 	{
 		if (lstat(tmp->path, &sb) != -1)
 		{
 			if (S_ISCHR(sb.st_mode) || S_ISBLK(sb.st_mode))
 			{
-				(d.maj < length_nbr(major(sb.st_rdev))) ? d.maj = length_nbr(major(sb.st_rdev)) : 0;
-				(d.min < length_nbr(minor(sb.st_rdev))) ? d.min = length_nbr(minor(sb.st_rdev)) : 0;
-				((d.maj + d.min + 3) > d.big) ? d.big = (d.maj + d.min + 3) : 0;
+				d.maj = MAX(d.maj, length_nbr(major(sb.st_rdev)));
+				d.min = MAX(d.min, length_nbr(minor(sb.st_rdev)));
+				if ((d.maj + d.min + 3) > d.big)
+					d.big = d.maj + d.min + 3;
 			}
 			else
-				(length_nbr(sb.st_size) > d.big) ? d.big = length_nbr(sb.st_size) : 0;
-			(length_nbr(sb.st_nlink) > d.link) ? d.link = length_nbr(sb.st_nlink) : 0;
-			if (getpwuid(sb.st_uid))
-				(ft_strlen(getpwuid(sb.st_uid)->pw_name) > (size_t)d.usr) ? d.usr = ft_strlen(getpwuid(sb.st_uid)->pw_name): 0;
-			else
-				(length_nbr(sb.st_uid) > d.usr) ? d.usr = length_nbr(sb.st_uid) : 0;
-			if (getgrgid(sb.st_gid))
-				(ft_strlen(getgrgid(sb.st_gid)->gr_name) > (size_t)d.grp) ? d.grp = ft_strlen(getgrgid(sb.st_gid)->gr_name): 0;
-			else
-				(length_nbr(sb.st_gid) > d.usr) ? d.usr = length_nbr(sb.st_gid) : 0;
+				d.big = MAX(length_nbr(sb.st_size), d.big);
+			d.link = MAX(length_nbr(sb.st_nlink), d.link);
+			usr_grp_max(sb, &d);
 		}
 		tmp = tmp->next;
 	}
 	return (d);
 }
 
-static void			special_print(struct stat info, t_device d)
-{
-	if (S_ISCHR(info.st_mode) || S_ISBLK(info.st_mode))
-	{
-		special_print_2(major(info.st_rdev), d.maj);
-		ft_printf(", ");
-		special_print_2(minor(info.st_rdev), d.min);
-		return ;
-	}
-	special_print_2(info.st_size, d.big);
-}
-
-void				print_with_blocks(t_path *list, char *str)
+void			print_with_blocks(t_path *list, char *str)
 {
 	struct stat	buffer;
 	t_path		*tmp;
@@ -85,7 +87,6 @@ void				print_with_blocks(t_path *list, char *str)
 
 	tmp = list;
 	d = big_size(list);
-	printf("BIG %d\n", d.big);
 	(str) ? total(list) : 0;
 	while (tmp)
 	{
@@ -102,8 +103,7 @@ void				print_with_blocks(t_path *list, char *str)
 		special_print(buffer, d);
 		ft_printf(" %.12s %s", (ctime(&buffer.st_mtime)) + 4,
 				(tmp->path) + ft_strlen(str));
-		(S_ISLNK(buffer.st_mode) == 1) ? print_link(tmp->path, buffer) :
-		ft_printf("\n");
+		(S_ISLNK(buffer.st_mode) == 1) ? llink(tmp->path) : ft_printf("\n");
 		tmp = tmp->next;
 	}
 }
